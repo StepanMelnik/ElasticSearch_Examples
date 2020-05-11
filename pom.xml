@@ -1,0 +1,182 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.sme</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.sme.elasticsearch</groupId>
+    <artifactId>hello-es</artifactId>
+    <version>0.0.0.Dev-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>${project.organization.name} :: ${application.name}</name>
+    <url>https://github.com/StepanMelnik/HelloElasticSearch</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>stepan</id>
+            <name>Stepan Melnyk</name>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:StepanMelnik/ElasticSearch_Examples.git</connection>
+        <developerConnection>scm:git:git@github.com:StepanMelnik/ElasticSearch_Examples.git</developerConnection>
+        <url>https://github.com/StepanMelnik/ElasticSearch_Examples</url>
+    </scm>
+
+    <!-- Local Sonatype Nexus Repository -->
+    <distributionManagement>
+        <repository>
+            <id>repository.sme.com</id>
+            <url>http://repository.sme.com:8081/repository/maven-internal-release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>repository.sme.com</id>
+            <url>http://repository.sme.com:8081/repository/maven-internal-snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <application.name>ElasticSearch Examples</application.name>
+
+        <elasticsearch.version>7.6.2</elasticsearch.version>
+        <commons-lang3.version>3.10</commons-lang3.version>
+        <commons-io.version>2.6</commons-io.version>
+        <jackson-databind.version>2.11.0</jackson-databind.version>
+        <slf4j.version>1.7.30</slf4j.version>
+        <log4j.version>2.13.2</log4j.version>
+
+        <junit.version>4.13</junit.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch -->
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-client -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- org.elasticsearch.test:framework requires log4j -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <!-- Test -->
+
+        <!-- https://mvnrepository.com/artifact/org.testcontainers/elasticsearch -->
+        <!-- Based on docker -->
+        <!--dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>1.14.1</version>
+            <scope>test</scope>
+        </dependency-->
+        
+        <!-- https://mvnrepository.com/artifact/pl.allegro.tech/embedded-elasticsearch -->
+        <!-- Embedded server does not work with ES7 -->
+        <!--dependency>
+            <groupId>pl.allegro.tech</groupId>
+            <artifactId>embedded-elasticsearch</artifactId>
+            <version>2.10.0</version>
+            <scope>test</scope>
+        </dependency-->
+        
+        <!-- Native -->
+        <!-- https://mvnrepository.com/artifact/org.elasticsearch.test/framework -->
+        <dependency>
+            <groupId>org.elasticsearch.test</groupId>
+            <artifactId>framework</artifactId>
+            <version>7.6.2</version>
+            <scope>test</scope>
+        </dependency>
+                
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+</project>

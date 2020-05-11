@@ -1,0 +1,43 @@
+package com.sme.elasticsearch.testcontainer;
+
+import static org.junit.Assert.assertEquals;
+
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.Response;
+import org.elasticsearch.client.RestClient;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.testcontainers.elasticsearch.ElasticsearchContainer;
+
+/**
+ * ES test container based on <a href="https://www.testcontainers.org/modules/elasticsearch/">www.testcontainers.org/modules/elasticsearch/</a>
+ */
+public class DockerTestContainer
+{
+    private static ElasticsearchContainer CONTAINER = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:6.4.1");
+
+    @BeforeClass
+    public static void beforeClass()
+    {
+        CONTAINER.start();
+    }
+
+    @Test
+    void testContainer() throws Exception
+    {
+        RestClient restClient = RestClient.builder(HttpHost.create(CONTAINER.getHttpHostAddress()))
+                .setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder)
+                .build();
+
+        Response response = restClient.performRequest(new Request("GET", "/"));
+        assertEquals(200, response.getStatusLine().getStatusCode());
+    }
+
+    @AfterClass
+    public static void aferClass()
+    {
+        CONTAINER.start();
+    }
+}

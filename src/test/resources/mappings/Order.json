@@ -1,0 +1,58 @@
+{
+	"dynamic": "strict",
+	"properties": {
+		"id": {
+			"type": "long"
+		},
+		"orderNo": {
+			"type": "text",
+			"fields": {
+				"keyword": {
+					"type": "keyword",
+					"ignore_above": 256
+				}
+			}
+		},
+		"orderItems": {
+			"properties": {
+				"article": {
+					"properties": {
+						"active": {
+							"type": "boolean"
+						},
+						"description": {
+							"type": "text",
+							"fields": {
+								"keyword": {
+									"type": "keyword",
+									"ignore_above": 256
+								}
+							}
+						},
+						"id": {
+							"type": "long"
+						},
+						"name": {
+							"type": "text",
+							"fields": {
+								"keyword": {
+									"type": "keyword",
+									"ignore_above": 256
+								}
+							}
+						},
+						"price": {
+							"type": "float"
+						}
+					}
+				},
+				"id": {
+					"type": "long"
+				},
+				"quantity": {
+					"type": "long"
+				}
+			}
+		}
+	}
+}
