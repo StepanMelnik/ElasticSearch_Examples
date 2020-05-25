@@ -34,9 +34,11 @@ public final class ObjectMapperUtil
     }
 
     /**
-     * @param <T>
-     * @param data
-     * @return
+     * Serialize a given instance to string value.
+     * 
+     * @param <T> Given instance to serialize as string value;
+     * @param data The instance to be serialized as string value;
+     * @return Returns serialized string value.
      */
     public static <T> String serialize(T data)
     {
@@ -53,10 +55,12 @@ public final class ObjectMapperUtil
     }
 
     /**
-     * @param <T>
-     * @param resultClass
-     * @param data
-     * @return
+     * Deserialize a string value to the given type.
+     * 
+     * @param <T> Instance type;
+     * @param resultClass The type to deserialize data;
+     * @param data String value;
+     * @return Returns created instance.
      */
     public static <T> T deserialize(Class<T> resultClass, String data)
     {
@@ -71,10 +75,12 @@ public final class ObjectMapperUtil
     }
 
     /**
-     * @param <T>
-     * @param fromValue
-     * @param toType
-     * @return
+     * Converts given value into instance of given value type.
+     * 
+     * @param <T> Instance type;
+     * @param fromValue The given instance;
+     * @param toType Output instance;
+     * @return Returns converted instance.
      */
     public static <T> T convert(Object fromValue, Class<T> toType)
     {
