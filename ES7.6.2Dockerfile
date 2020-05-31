@@ -1,0 +1,77 @@
+# Check system version: cat /etc/os-release
+
+# The Docker file to build and run ElasticSearch 7.6.2 version.
+
+## Build
+### sudo docker build --no-cache -t "elasticsearch7.6.2:0.1" -f ES7.6.2Dockerfile .
+### sudo docker images -a | grep elasticsearch7.6.2
+
+## Check content
+### sudo docker image save elasticsearch7.6.2 > elasticsearch7.6.2.tar
+
+## Check files in image
+### sudo docker run --rm -it elasticsearch7.6.2:0.1 find /etc/elasticsearch
+### sudo docker run --rm -it elasticsearch7.6.2:0.1 find /usr/share/elasticsearch
+
+## Open image in bash and check all files
+### sudo docker run --rm -it elasticsearch7.6.2:0.1 bash
+### cd /usr/share/elasticsearch
+### java -version
+### exit
+
+## Run
+### check java version: sudo docker run --rm -it elasticsearch7.6.2:0.1 java --version
+### run: 
+##		sudo docker volume create --name esdata
+##		sudo docker run --rm -ti -p 9200:9200 -v esdata:/usr/share/elasticsearch/data elasticsearch7.6.2:0.1
+## sudo docker run -p 9200:9200 --rm -it elasticsearch7.6.2:0.1 /etc/init.d/elasticsearch start
+
+## Remove image
+### sudo docker image rm --force elasticsearch7.6.2:0.1
+
+## Alternative way
+### sudo docker pull docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+### sudo docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+
+#FROM ubuntu:precise
+FROM debian:latest
+
+MAINTAINER Stepan Melnik <stepan.melnik@gmail.com>
+
+# Install Java
+RUN apt-get -y update
+RUN apt-cache search openjdk
+RUN apt-get install -y openjdk-11-jdk 
+
+## Set JAVA_HOME
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
+
+# Download from https://www.elastic.co/downloads/past-releases/elasticsearch-7-6-2 
+RUN apt-get install -y procps
+RUN apt-get install -y wget
+RUN wget -q https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.6.2-amd64.deb
+
+# Install ElasticSearch 
+RUN groupadd -g 1000 elasticsearch && useradd elasticsearch -u 1000 -g 1000
+RUN apt-get install -y --no-install-recommends ./elasticsearch-7.6.2-amd64.deb
+
+WORKDIR /usr/share/elasticsearch
+
+RUN set -ex && for path in data logs config config/scripts; do \
+        mkdir -p "$path"; \
+        chown -R elasticsearch:elasticsearch "$path"; \
+    done	
+
+COPY logging.yml /usr/share/elasticsearch/config/
+COPY elasticsearch.yml /usr/share/elasticsearch/config/
+
+USER elasticsearch
+ENV PATH=$PATH:/usr/share/elasticsearch/bin
+	
+# Expose default ElasticSearch ports
+EXPOSE 9200 9300
+
+# Start ElasticSearch
+CMD ["elasticsearch"]
+#CMD /usr/share/elasticsearch/bin/elasticsearch
+#ENTRYPOINT ["elasticsearch"]

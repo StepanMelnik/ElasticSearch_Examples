@@ -1,0 +1,14 @@
+## Run
+### docker-compose up -d
+
+version: '7.6.2'
+services:
+	elasticsearch:
+		container_name: elasticsearch
+		image: elasticsearch:7.6.2
+		volumes:
+			- /var/db/elasticsearch/:/usr/share/elasticsearch/data/
+		ports:
+			- 9200:9200
+			- 9300:9300
+				
